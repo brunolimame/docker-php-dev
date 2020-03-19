@@ -1,0 +1,92 @@
+version: "3.6"
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: local-webserver
+    ports:
+      - 80:80
+#      - 443:443
+    volumes:
+      - .:/application:rw
+      - ./docker/nginx/conf:/etc/nginx/conf.d
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+    links:
+      - php74
+      - php73
+      - php72
+      - php71
+      - php70
+      - php56
+    depends_on:
+      - php74
+      - php73
+      - php72
+      - php71
+      - php70
+      - php56
+
+  php74:
+    build: docker/php74-fpm
+    image: local/php74-fpm
+    container_name: local-php74-fpm
+    working_dir: /application
+    expose:
+      - 9000
+    volumes:
+      - ./:/application:rw
+      - ./docker/php74-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
+
+  php73:
+    build: docker/php73-fpm
+    image: local/php73-fpm
+    container_name: local-php73-fpm
+    working_dir: /application
+    expose:
+      - 9000
+    volumes:
+      - ./:/application:rw
+      - ./docker/php73-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
+
+  php72:
+    build: docker/php72-fpm
+    image: local/php72-fpm
+    container_name: local-php72-fpm
+    working_dir: /application
+    expose:
+      - 9000
+    volumes:
+      - ./:/application:rw
+      - ./docker/php72/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini
+
+  php71:
+    build: docker/php71-fpm
+    image: local/php71-fpm
+    container_name: local-php71-fpm
+    working_dir: /application
+    expose:
+      - 9000
+    volumes:
+      - ./:/application:rw
+      - ./docker/php71/php-ini-overrides.ini:/etc/php/7.1/fpm/conf.d/99-overrides.ini
+
+  php70:
+    build: docker/php70-fpm
+    image: local/php70-fpm
+    container_name: local-php70-fpm
+    working_dir: /application
+    expose:
+      - 9000
+    volumes:
+      - ./:/application:rw
+      - ./docker/php70/php-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
+
+  php56:
+    build: docker/php56-fpm
+    image: local/php56-fpm
+    container_name: loca-php56-fpm
+    working_dir: /application
+    expose:
+      - 9000
+    volumes:
+      - ./:/application:rw
+      - ./docker/php56/php-ini-overrides.ini:/etc/php/56/fpm/conf.d/99-overrides.ini

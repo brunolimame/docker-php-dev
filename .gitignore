@@ -1,0 +1,5 @@
+.idea/
+base/*
+storage/db/mysql/*
+storage/db/pgsql/*
+storage/log/**/*.log
